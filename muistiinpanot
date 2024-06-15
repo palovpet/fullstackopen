@@ -2,5 +2,3 @@ chrome developer-konsolin avaus ctrl+sift+i
 Tapahtumankäsittelijöinä olevia JS funktioita kutsutaan callback eli takaisinkutsufunktioiksi, koska niitä kutsuu suoritusympäristö ei sovelluksen koodi.
 DOM API mahdollistaa web-sivuja vastaavien elementtipuiden muokkaamisen ohjelmllisesti.
 
-
-:)
