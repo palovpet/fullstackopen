@@ -14,6 +14,13 @@ const Content = (content) => {
   )
 }
 
+const Total = (total) => {
+  return (
+    <p>Number of exercises {total.count} </p>
+   
+  )
+}
+
 const App = () => {
   const course = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
@@ -30,7 +37,7 @@ const App = () => {
       part2={part2} exercises2={exercises2} 
       part3={part3} exercises3={exercises3}
       />
-      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+      <Total count={exercises1+exercises2+exercises3}/>
     </>
   )
 }
