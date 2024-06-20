@@ -6,18 +6,13 @@ const Header = (header) => {
 
 const Content = (content) => {
   return (
-    <div>
-    <p>{content.part1} {content.exercises1}</p>
-    <p>{content.part2} {content.exercises2}</p>
-    <p>{content.part3} {content.exercises3}</p>
-    </div>
+    <p>{content.name} {content.count}</p>
   )
 }
 
 const Total = (total) => {
   return (
-    <p>Number of exercises {total.count} </p>
-   
+    <p>Number of exercises {total.count} </p>  
   )
 }
 
@@ -33,10 +28,9 @@ const App = () => {
   return (
     <>
       <Header name={course} />
-      <Content part1={part1} exercises1={exercises1} 
-      part2={part2} exercises2={exercises2} 
-      part3={part3} exercises3={exercises3}
-      />
+      <Content name={part1} count={exercises1}/>
+      <Content name={part2} count={exercises2}/>
+      <Content name={part3} count={exercises3}/>
       <Total count={exercises1+exercises2+exercises3}/>
     </>
   )
