@@ -10,11 +10,11 @@ const Content = ({ course }) => {
   )
 }
 
-/* const Total = (total) => {
+const Total = (total) => {
   return (
     <p>Number of exercises {total.count} </p>  
   )
-} */
+} 
 
 const App = () => {
   const course = 'Half Stack application development'
@@ -31,12 +31,15 @@ const App = () => {
     exercises: 14
   }
 
+  console.log(part1.exercises + part2.exercises + part3.exercises)
+
   return (
     <>
       <Header name={course} />
       <Content course={part1}/>
       <Content course={part2}/>
       <Content course={part3}/>
+      <Total count={part1.exercises + part2.exercises + part3.exercises} />
     </>
   )
 }
