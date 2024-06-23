@@ -14,11 +14,16 @@ const Content = ({ table }) => {
   )
 }
 
-/* const Total = (total) => {
+const Total = ({ table }) => {
+  let sum = 0
+  table.forEach(course => {
+    sum = sum + course.exercises
+    console.log(sum)
+  })
   return (
-    <p>Number of exercises {total.count} </p>  
+    <p>Number of exercises {sum}</p>  
   )
-} */ 
+}  
 
 const App = () => {
   const course = 'Half Stack application development'
@@ -41,6 +46,7 @@ const App = () => {
     <>
       <Header name={course} />
       <Content table={parts}/>
+      <Total table={parts} />
    </>
   )
 }
