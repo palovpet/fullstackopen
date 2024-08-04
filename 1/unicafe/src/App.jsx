@@ -42,9 +42,9 @@ const Statistics = (props) => {
       <StatisticLine text="good" value ={props.good} />
       <StatisticLine text="neutral" value ={props.neutral} />
       <StatisticLine text="bad" value ={props.bad} />
-      <p> all {props.allClicks.length}</p>
-      <p> average {average(props.allClicks)}</p>
-      <p> positive {divide(props.positives, props.allClicks.length)}%</p>
+      <StatisticLine text="all" value ={props.allClicks.length} />
+      <StatisticLine text="average" value={average(props.allClicks)} />
+      <StatisticLine text="positive" value={(divide(props.positives, props.allClicks.length) + '%')}/>
     </div>
   )
 
