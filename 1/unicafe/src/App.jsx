@@ -9,9 +9,22 @@ const Statistics = (props) => {
     )
   }
 
+  const average = function(t) {
+    if (t.length == 0){
+      return 0
+    }
+
+    let sum = 0
+    t.forEach(value => {
+      sum = sum + value
+    })
+    return sum/t.length
+  }
+
   return (
     <div>
       <p> all {props.allClicks.length}</p>
+      <p> average {average(props.allClicks)}</p>
     </div>
   )
 
@@ -47,17 +60,7 @@ const App = () => {
     return ((a / b)*100)
   }
 
-  const average = function(t) {
-    if (t.length == 0){
-      return 0
-    }
-
-    let sum = 0
-    t.forEach(value => {
-      sum = sum + value
-    })
-    return sum/t.length
-  }
+  
 
   return (
     <div>
@@ -71,8 +74,6 @@ const App = () => {
       <p> good {good} </p>
       <p> neutral {neutral} </p>
       <p> bad {bad}</p>
-      <p> all {allClicks.length}</p>
-      <p> average {average(allClicks)}</p>
       <p> positive {divide(positives, allClicks.length)}%</p>
       <Statistics allClicks={allClicks} />
     </div>
