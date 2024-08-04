@@ -21,10 +21,22 @@ const Statistics = (props) => {
     return sum/t.length
   }
 
+  const divide = function(a, b) {
+    if (b == 0){
+      return 0
+    }
+    return ((a / b)*100)
+  }
+
   return (
     <div>
+      <h3>statistics</h3>
+      <p> good {props.good} </p>
+      <p> neutral {props.neutral} </p>
+      <p> bad {props.bad}</p>
       <p> all {props.allClicks.length}</p>
       <p> average {average(props.allClicks)}</p>
+      <p> positive {divide(props.positives, props.allClicks.length)}%</p>
     </div>
   )
 
@@ -53,15 +65,6 @@ const App = () => {
     setBad(bad + 1)
   }
 
-  const divide = function(a, b) {
-    if (b == 0){
-      return 0
-    }
-    return ((a / b)*100)
-  }
-
-  
-
   return (
     <div>
       <h3>give feedback</h3>
@@ -70,12 +73,7 @@ const App = () => {
         <button onClick={handleNeutralClick}>neutral</button>
         <button onClick={handleBadClick}>bad</button>
       </div>
-      <h3>statistics</h3>
-      <p> good {good} </p>
-      <p> neutral {neutral} </p>
-      <p> bad {bad}</p>
-      <p> positive {divide(positives, allClicks.length)}%</p>
-      <Statistics allClicks={allClicks} />
+      <Statistics good={good} neutral={neutral} bad={bad} allClicks={allClicks} positives={positives}/>
     </div>
   )
 }
