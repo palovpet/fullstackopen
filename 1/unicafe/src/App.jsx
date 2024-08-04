@@ -1,5 +1,22 @@
 import { useState } from 'react'
 
+const Statistics = (props) => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <p> all {props.allClicks.length}</p>
+    </div>
+  )
+
+}
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -57,6 +74,7 @@ const App = () => {
       <p> all {allClicks.length}</p>
       <p> average {average(allClicks)}</p>
       <p> positive {divide(positives, allClicks.length)}%</p>
+      <Statistics allClicks={allClicks} />
     </div>
   )
 }
