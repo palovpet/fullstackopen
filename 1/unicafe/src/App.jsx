@@ -4,7 +4,8 @@ const Statistics = (props) => {
   if (props.allClicks.length === 0) {
     return (
       <div>
-        the app is used by pressing the buttons
+        <h3>statistics</h3>
+        <p>No feedback given</p>
       </div>
     )
   }
