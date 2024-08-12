@@ -10,8 +10,9 @@ const App = () => {
     event.preventDefault()
     console.log('button clicked', event.target)
     console.log(persons)
+
     const nameObject = {
-      content: newName,
+      name: newName,
       id: String(persons.length + 1)
     }
     setPersons(persons.concat(nameObject))
@@ -38,8 +39,11 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      ...
-      <div>debug: {newName}</div>
+      <div>
+        {persons.map(person => 
+        <li key={person.name}>{person.name}</li>
+        )}
+      </div>      
     </div>
    
   )
