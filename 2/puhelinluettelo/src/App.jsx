@@ -6,16 +6,32 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
+  const getIndexorDefault = (list, value) => {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].name === value) {
+        return i 
+      }
+    }
+    return -1
+  }
+  
   const addName = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
     console.log(persons)
 
+    if (getIndexorDefault(persons, newName) === -1) {
+    
     const nameObject = {
       name: newName,
       id: String(persons.length + 1)
     }
     setPersons(persons.concat(nameObject))
+    
+    } else {
+      console.log('nimi löytyi jo')
+      window.alert(`${newName} löytyypi jo`)
+    }
     setNewName('')
   }
 
