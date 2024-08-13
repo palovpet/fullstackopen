@@ -2,9 +2,13 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', 
+      number: 123
+    }
   ]) 
   const [newName, setNewName] = useState('')
+
+  const [newNumber, setNewNumber] = useState('') 
 
   const getIndexorDefault = (list, value) => {
     for (let i = 0; i < list.length; i++) {
@@ -15,16 +19,14 @@ const App = () => {
     return -1
   }
   
-  const addName = (event) => {
+  const addNameAndNumber = (event) => {
     event.preventDefault()
-    console.log('button clicked', event.target)
-    console.log(persons)
 
     if (getIndexorDefault(persons, newName) === -1) {
     
     const nameObject = {
       name: newName,
-      id: String(persons.length + 1)
+      number: newNumber
     }
     setPersons(persons.concat(nameObject))
     
@@ -33,31 +35,43 @@ const App = () => {
       window.alert(`${newName} löytyypi jo`)
     }
     setNewName('')
+    setNewNumber('')
   }
 
-  const handleNameChange = (event) => {
-    console.log(event.target.value)
-    setNewName(event.target.value)
+  const handleChange = (event) => {
+    const {name, value} = event.target
+
+    if (name === "name") {
+      setNewName(value)
+    }
+    if (name === "number") {
+      setNewNumber(value)
+    }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName}>
+      <form onSubmit={addNameAndNumber}>
         <div>
           name: <input
+                  name="name"
                   value={newName}
-                  onChange={handleNameChange}
+                  onChange={handleChange}
                   />
         </div>
-        <div>
-          <button type="submit">add</button>
+        <div>number: <input 
+                      name="number"
+                      value={newNumber}
+                      onChange={handleChange}
+                      />
         </div>
+        <div><button type="submit">add</button></div>
       </form>
       <h2>Numbers</h2>
       <div>
         {persons.map(person => 
-        <li key={person.name}>{person.name}</li>
+        <li key={person.name}>{person.name} {person.number}</li>
         )}
       </div>      
     </div>
