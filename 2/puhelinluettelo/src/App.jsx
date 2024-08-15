@@ -32,6 +32,16 @@ const AddNew = ({ addNameAndNumber, newName, newNumber, handleChange }) => {
   )
 }
 
+const ShowPersons = ({ personsToShow }) => {
+  return (
+    <div>
+        {personsToShow.map(person => 
+        <li key={person.name}>{person.name} {person.number}</li>
+        )}
+      </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -100,11 +110,7 @@ const App = () => {
       <h3>add a new</h3>
       <AddNew addNameAndNumber={addNameAndNumber} newName={newName} newNumber={newNumber} handleChange={handleChange} />
       <h3>Numbers</h3>
-      <div>
-        {personsToShow.map(person => 
-        <li key={person.name}>{person.name} {person.number}</li>
-        )}
-      </div>      
+      <ShowPersons personsToShow={personsToShow}/>     
     </div>
    
   )
