@@ -2,13 +2,16 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', 
-      number: 123
-    }
-  ]) 
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
   const [newName, setNewName] = useState('')
 
   const [newNumber, setNewNumber] = useState('') 
+
+  const [filter, setFilter] = useState('')
 
   const getIndexorDefault = (list, value) => {
     for (let i = 0; i < list.length; i++) {
@@ -49,9 +52,25 @@ const App = () => {
     }
   }
 
+  const filterNumbers = (event) => {
+    const { value } = event.target
+    setFilter(value)
+    console.log(value)
+  }
+
+  const personsToShow = persons.filter(person =>
+    person.name.includes(filter)
+  )
+
   return (
     <div>
       <h2>Phonebook</h2>
+      filtteröi <input
+                  name="filter"
+                  value={filter}
+                  onChange={filterNumbers}
+                  />
+      <h3>add a new</h3>
       <form onSubmit={addNameAndNumber}>
         <div>
           name: <input
@@ -68,9 +87,9 @@ const App = () => {
         </div>
         <div><button type="submit">add</button></div>
       </form>
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
       <div>
-        {persons.map(person => 
+        {personsToShow.map(person => 
         <li key={person.name}>{person.name} {person.number}</li>
         )}
       </div>      
