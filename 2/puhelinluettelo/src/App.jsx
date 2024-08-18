@@ -15,36 +15,51 @@ const App = () => {
       })
   }, [])
 
-  const getIndexorDefault = (list, value) => {
+/*   const getIndexorDefault = (list, value) => {
     for (let i = 0; i < list.length; i++) {
       if (list[i].name === value) {
         return i 
       }
     }
     return -1
-  }
+  } */
   
   const addNameAndNumber = (event) => {
     event.preventDefault()
 
-    if (getIndexorDefault(persons, newName) === -1) {
-    
-    const nameObject = {
-      name: newName,
-      number: newNumber
-    }
+    const personAdded = persons.find(person => person.name === newName)
+
+    if (!personAdded) {
+      const personObject = {
+        name: newName,
+        number: newNumber
+      }
 
     personService
-      .create(nameObject)
+      .create(personObject)
       .then(response => {
         setPersons(persons.concat(response.data))
         setNewName('')
         setNewNumber('')
       })
+
+/*     if (getIndexorDefault(persons, newName) === -1) { */
     
     } else {
-      console.log('nimi löytyi jo')
-      window.alert(`${newName} löytyypi jo`)
+      if (window.confirm(`Update number for ${newName}?`)) {
+        const id = personAdded.id
+        const changedPerson = {...personAdded, number: newNumber}
+        personService
+          .update(id, changedPerson)
+          .then(response => {
+            setPersons(persons.map(person => person.id !== id ? person : response.data))
+          })
+          .catch(error => {
+            console.log("failed :(", error)
+          })
+      } else {
+        console.log("ei päivitetty numeroa")
+      }
     } 
   }
 
@@ -73,7 +88,7 @@ const App = () => {
       personService
         .deletePerson(person.id)
         .then(() => {
-          setPersons(persons.filter(n => n.id !== person.id))
+          setPersons(persons.filter(p => p.id !== person.id))
         })
         .catch(error => {
           console.log('fail', error)
