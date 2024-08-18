@@ -6,6 +6,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('') 
   const [filter, setFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState('')
 
   useEffect(() => {
     personService
@@ -14,15 +15,6 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
-
-/*   const getIndexorDefault = (list, value) => {
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].name === value) {
-        return i 
-      }
-    }
-    return -1
-  } */
   
   const addNameAndNumber = (event) => {
     event.preventDefault()
@@ -41,9 +33,9 @@ const App = () => {
         setPersons(persons.concat(response.data))
         setNewName('')
         setNewNumber('')
+        setNotificationMessage(`Number for ${personObject.name} for added! ʕ •ᴥ•ʔ`)
+        setTimeout(() => {setNotificationMessage('')}, 5000)
       })
-
-/*     if (getIndexorDefault(persons, newName) === -1) { */
     
     } else {
       if (window.confirm(`Update number for ${newName}?`)) {
@@ -57,6 +49,8 @@ const App = () => {
           .catch(error => {
             console.log("failed :(", error)
           })
+        setNotificationMessage(`Number for ${newName} updated 凸ಠ益ಠ)凸 `)
+        setTimeout(() => {setNotificationMessage('')}, 5000)
       } else {
         console.log("ei päivitetty numeroa")
       }
@@ -93,17 +87,31 @@ const App = () => {
         .catch(error => {
           console.log('fail', error)
         })    
+    setNotificationMessage(`${person.name} deleted ಠ_ಠ `)
+    setTimeout(() => {setNotificationMessage('')}, 5000)
     }
   }
 
   return (
     <div>
+      <Notification message={notificationMessage} />
       <h2>Phonebook</h2>
       <Filter filter={filter} filterNumbers={filterNumbers} />
       <h3>add a new</h3>
       <AddNew addNameAndNumber={addNameAndNumber} newName={newName} newNumber={newNumber} handleChange={handleChange} />
       <h3>Numbers</h3>
       <ShowPersons personsToShow={personsToShow} deletePerson={deletePerson}/>     
+    </div>
+  )
+}
+
+const Notification = ({ message }) => {
+  if (!message) {
+    return null
+  }
+  return (
+    <div className="message">
+      {message}
     </div>
   )
 }
