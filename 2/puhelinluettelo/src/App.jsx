@@ -47,7 +47,8 @@ const App = () => {
             setPersons(persons.map(person => person.id !== id ? person : response.data))
           })
           .catch(error => {
-            console.log("failed :(", error)
+            setNotificationMessage(`${newName} was deleted from numbers already (O___O)'`)
+            setTimeout(() => {setNotificationMessage('')}, 5000)
           })
         setNotificationMessage(`Number for ${newName} updated 凸ಠ益ಠ)凸 `)
         setTimeout(() => {setNotificationMessage('')}, 5000)
@@ -86,6 +87,8 @@ const App = () => {
         })
         .catch(error => {
           console.log('fail', error)
+          setNotificationMessage(`${person.name} deleted already o___O`)
+          setTimeout(() => {setNotificationMessage('')}, 5000)
         })    
     setNotificationMessage(`${person.name} deleted ಠ_ಠ `)
     setTimeout(() => {setNotificationMessage('')}, 5000)
