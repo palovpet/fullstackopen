@@ -20,7 +20,7 @@ let persons = [
   ]
 
 app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
+  response.send('<h1>Hello World :)</h1>')
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -32,6 +32,13 @@ app.get('/api/persons/:id', (request, response) => {
 app.get('/api/persons', (request, response) => {
     response.json(persons)
   })
+
+app.get('/info', (request, response) => {
+    const count = persons.length
+    const time = new Date().toString()
+    response.send(`Phonebook has info for ${count} people<br>${time}`)
+    
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
