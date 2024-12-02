@@ -1,17 +1,6 @@
-h1 {
-  color: green;
-  font-style: italic;
-}
-
-.note {
-  color: grey;
-  padding-top: 3px;
-  font-size: 15px;
-}
-
-.error {
-  color: red;
-  background: lightgrey;
+.message {
+  color: #ffffff;
+  background: rgb(233, 21, 162);
   font-size: 20px;
   border-style: solid;
   border-radius: 5px;
