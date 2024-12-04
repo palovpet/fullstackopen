@@ -4,17 +4,17 @@ const app = express()
 let persons = [
   {
     id: 1,
-    content: "Petra",
+    name: "Petra",
     number: "123"
   },
   {
     id: 2,
-    content: "Muru",
+    name: "Muru",
     number: "456"
   },
   {
     id: 3,
-    content: "Äiti",
+    name: "Äiti",
     number: "789"
   }
 ]
@@ -60,8 +60,8 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 const generateId = () => {
-    const maxId = notes.length > 0
-      ? Math.max(...notes.map(n => n.id))
+    const maxId = persons.length > 0
+      ? Math.max(...persons.map(n => n.id))
       : 0
     return maxId + 1
   }
@@ -69,13 +69,19 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
   
-    if (!body.content) {
+    if (!body.name) {
       return response.status(400).json({ 
-        error: 'content missing' 
+        error: 'name missing' 
       })
     }
 
-    const notUnique = persons.some(person => person.content === body.content)
+    if (!body.number) {
+      return response.status(400).json({ 
+        error: 'number missing'
+      })
+    }
+
+    const notUnique = persons.some(person => person.name === body.name)
     if (notUnique) {
       return response.status(400).json({ 
         error: 'name must be unique' 
@@ -84,13 +90,13 @@ app.post('/api/persons', (request, response) => {
   
     const person = {
       id: generateId(),
-      content: body.content,
+      name: body.name,
       number: body.number, 
     }
   
     persons = persons.concat(person)
   
-    response.json(note)
+    response.json(person)
   })
 
   const PORT = process.env.PORT || 3002
