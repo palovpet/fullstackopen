@@ -1,71 +1,96 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 
-let persons = [
-  {
-    id: 1,
-    name: "Petra",
-    number: "123"
-  },
-  {
-    id: 2,
-    name: "Muru",
-    number: "456"
-  },
-  {
-    id: 3,
-    name: "Äiti",
-    number: "789"
-  }
-]
-
 const cors = require('cors')
 
-app.use(cors())
-
-app.use(express.json())
+const Person = require('./models/person')
 
 app.use(express.static('dist'))
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(cors())
+app.use(express.json())
+app.use(requestLogger)
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World :)</h1>')
 })
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    console.log('no person with this id')
-    response.status(404).end()
-  }
-  
-})
-
 app.get('/api/persons', (request, response) => {
+  Person.find({}).then((persons) => {
     response.json(persons)
   })
+})
+
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndDelete(request.params.id)
+  .then(result => {
+    response.status(204).end()
+  })
+  .catch(error => next(error))
+})
 
 app.get('/info', (request, response) => {
-    const count = persons.length
+  Person.find({}).then(persons => {
     const time = new Date().toString()
-    response.send(`Phonebook has info for ${count} people<br>${time}`)
+    response.send(`Phonebook has info for ${persons.lenght} people<br>${time}`)
+  }) 
     
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)  
-    response.status(204).end()
+// app.delete('/api/persons/:id', (request, response, next) => {
+//   Person.findByIdAndRemove(request.params.id)
+//     .then(() => {
+//       response.status(204).end()
+//       console.log('deleted!')
+//     })
+//     .catch((error) => next(error))
+// })
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 const generateId = () => {
-    const maxId = persons.length > 0
+    Person.find({}).then(persons => {
+      const maxId = persons.length > 0
       ? Math.max(...persons.map(n => n.id))
       : 0
     return maxId + 1
+    })      
   }
 
 app.post('/api/persons', (request, response) => {
@@ -83,25 +108,28 @@ app.post('/api/persons', (request, response) => {
       })
     }
 
-    const notUnique = persons.some(person => person.name === body.name)
-    if (notUnique) {
-      return response.status(400).json({ 
-        error: 'name must be unique' 
-      })
-    }
+    // const notUnique = persons.some(person => person.name === body.name)
+    // if (notUnique) {
+    //   return response.status(400).json({ 
+    //     error: 'name must be unique' 
+    //   })
+    // }
   
-    const person = {
+    const person = new Person({
       id: generateId(),
       name: body.name,
       number: body.number, 
-    }
-  
-    persons = persons.concat(person)
-  
-    response.json(person)
+    })
+
+    person.save().then(savedPerson => {
+      response.json(savedPerson)
+    })
   })
 
-  const PORT = process.env.PORT || 3001
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-  })
+app.use(unknownEndpoint)
+app.use(errorHandler)
+
+const PORT = process.env.PORT
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
