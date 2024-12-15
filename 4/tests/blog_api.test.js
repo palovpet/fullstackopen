@@ -53,7 +53,7 @@ test('blogs are returned as json', async () => {
 
 test('there are three blogs', async () => {
   const response = await api.get('/api/blogs')
-  console.log('count ', response.body.length)
+  console.log('Initial list, count ', response.body.length)
   assert.strictEqual(response.body.length, initialBlogs.length)
 })
 
@@ -61,6 +61,27 @@ test('id-field is named id', async () => {
   const response = await api.get('/api/blogs')
   assert.strictEqual(response.body[0]._id, undefined)
   assert.ok(response.body[0].id)
+})
+
+test('a blog can be added', async () => {
+  const newBlog = {
+    title: "Buubääböö",
+    author: "T.Kari",
+    url: "http://google.fi",
+    likes: 100,
+  }
+
+  await api
+  .post('/api/blogs')
+  .send(newBlog)
+  .expect(201)
+  .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  console.log('New blog, count:', response.body.length)
+
+  assert.strictEqual(response.body.length, initialBlogs.length + 1)
 })
 
 after(async () => {
