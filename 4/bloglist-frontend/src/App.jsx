@@ -38,20 +38,20 @@ const App = () => {
       username, password,
     })
     window.localStorage.setItem(
-      'loggedUser', JSON.stringify(user)
-    )
+      'loggedUser', JSON.stringify(user))
 
     blogService.setToken(user.token)
-    setUser(user)
+
     setMessage('Logged in!')
-      setTimeout(() => {setMessage(null)}, 5000)
+    setUser(user)
+    setTimeout(() => {setMessage(null)}, 5000)
     setUsername('')
     setPassword('')
   } catch (exception) {
     console.log('wrong credentials')
-    setErrormessage(error.response.data.error)
+    setErrorMessage('wrong credentials')
     setTimeout(() => {
-      setErrormessage(null)
+      setErrorMessage(null)
     }, 5000)
     setUsername('')
     setPassword('')
@@ -112,9 +112,10 @@ const App = () => {
 
   return (
     <div>
-      <h1>BlogApp</h1>
       <Notification message={message}
                     errorMessage={errorMessage} /> 
+      <h1>BlogApp</h1>
+      
       {!user && loginForm()}      
       {user && <div>
         <p>{user.name} logged in </p>
@@ -125,6 +126,5 @@ const App = () => {
     </div>
   )
 }
-
 
 export default App

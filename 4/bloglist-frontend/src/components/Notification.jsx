@@ -3,7 +3,14 @@ import React from 'react'
 const Notification = ({ message, errorMessage }) => {
   if (errorMessage !== null) {
     return (
-      <div className="error">
+      <div className="error" style={{ 
+        color: 'black', 
+        fontSize: '20px', 
+        marginBottom: '10px',
+        backgroundColor: 'pink',
+        padding: '10px',
+        borderRadius: '5px',
+      }}>
         {errorMessage}
       </div>
     )
@@ -13,7 +20,14 @@ const Notification = ({ message, errorMessage }) => {
   }
 
   return (
-    <div className="success">
+    <div className="regular" style={{ 
+      color: 'black', 
+      fontSize: '20px', 
+      marginBottom: '10px',
+      backgroundColor: '#b8e0a5',
+      padding: '10px',
+      borderRadius: '5px',
+    }}>
       {message}
     </div>
   )
