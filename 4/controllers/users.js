@@ -5,6 +5,8 @@ const User = require('../models/user')
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
 
+  console.log('post, request body:', request.body)
+
   console.log(username, name, password)
 
   const saltRounds = 10
@@ -20,7 +22,6 @@ usersRouter.post('/', async (request, response) => {
   const savedUser = await user.save()
 
   response.status(201).json(savedUser)
-response.status(500).json({ error: 'Error creating user' })
 })
 
 usersRouter.get('/', async (request, response) => {

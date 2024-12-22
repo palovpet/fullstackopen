@@ -1,9 +1,9 @@
-POST http://localhost:3008/api/users
+POST http://localhost:3004/api/users
 
 Content-Type: application/json
 
 {
   "username": "heppatyttö93",
   "name": "Jorma Nieminen",
-  "passwordHash": "salasana"
+  "password": "salasana"
 }

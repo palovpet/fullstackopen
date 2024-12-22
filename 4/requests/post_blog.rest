@@ -3,9 +3,8 @@ POST http://localhost:3008/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Understanding REST Client",
-  "author": "John DODDododidi",
-  "url": "http://example.com",
-  "likes": 10,
-  "userId": "675efee9459bf1b97670514c" 
+  "title": "111",
+  "author": "222",
+  "url": "http://example.fi",
+  "likes": 10
 }
