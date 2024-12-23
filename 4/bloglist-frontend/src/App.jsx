@@ -83,6 +83,24 @@ const App = () => {
       })
   }
 
+  const likeBlog = async (blog) => {
+    const likedBlog = { ...blog, likes: blog.likes + 1 }
+    try {
+      const returnedBlog = await blogService.update(likedBlog)
+      setBlogs(blogs => blogs
+        .map(b => (b.id === returnedBlog.id ? returnedBlog : b))
+        .sort((a, b) => b.likes - a.likes)
+      )
+      setMessage(`${returnedBlog.title} was liked!`)
+      setTimeout(() => {setMessage(null)}, 5000)
+    } catch (error) {
+      console.log('error', error.response.data.error)
+      setErrorMessage(error.response.data.error)
+      setTimeout(() => {setErrorMessage(null)}, 5000)
+    }
+  }
+
+
   const loginForm = () => (
     <>
     <h1>Login</h1>
@@ -118,7 +136,7 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
       )}
       <p></p>
       <div style={hideWhenVisible}>
