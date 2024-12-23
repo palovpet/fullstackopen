@@ -3,7 +3,6 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
-import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +11,10 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [addBlogVisible, setAddBlogVisible] = useState(false)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -57,12 +60,19 @@ const App = () => {
     setPassword('')
   }}
 
-  const addBlog = (blogObject) => {
+  const addBlog = (event) => {
+    event.preventDefault()
+    const blogObject = { title, author, url }
     blogService
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         console.log('returnedblog', returnedBlog)
+
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+
         setMessage(`${returnedBlog.title} by ${returnedBlog.author} added`)
         setTimeout(() => {setMessage(null)}, 5000)
       })
@@ -100,15 +110,65 @@ const App = () => {
     </>   
   )
 
-  const blogForm = () => (
+  const blogForm = ( ) => {
+    const hideWhenVisible = { display: addBlogVisible ? 'none' : '' }
+    const showWhenVisible = { display: addBlogVisible ? '' : 'none' }
+
+  return (
     <div>
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
-      <BlogForm createBlog={addBlog} />
+      <p></p>
+      <div style={hideWhenVisible}>
+        <button onClick={() => setAddBlogVisible(true)}>new blog</button>
+      </div>
+      <div>
+      <button onClick={() => setAddBlogVisible(false)}>cancel</button>
+      </div>
+      <div style={showWhenVisible}>
+      <h3>Save new blog</h3>
+        <form onSubmit={addBlog}>
+          <div>
+              title
+            <input
+              id='title'
+              type="text"
+              value={title}
+              name="Title"
+              onChange={event => setTitle(event.target.value)}
+              placeholder='title of the blog'
+            />
+          </div>
+          <div>
+              author
+            <input
+              id='author'
+              type="text"
+              value={author}
+              name="Author"
+              onChange={event => setAuthor(event.target.value)}
+              placeholder='blog author'
+            />
+          </div>
+          <div>
+              url
+            <input
+              id='url'
+              type="text"
+              value={url}
+              name="url"
+              onChange={event => setUrl(event.target.value)}
+              placeholder='link to blog'
+            />
+          </div>
+          <button id='save-button' type="submit">save</button>
+        </form>
+      </div>
     </div>
   )
+  }
 
   return (
     <div>
