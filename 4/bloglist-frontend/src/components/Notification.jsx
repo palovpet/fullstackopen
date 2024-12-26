@@ -3,9 +3,9 @@ import React from 'react'
 const Notification = ({ message, errorMessage }) => {
   if (errorMessage !== null) {
     return (
-      <div className="error" style={{ 
-        color: 'black', 
-        fontSize: '20px', 
+      <div className="error" style={{
+        color: 'black',
+        fontSize: '20px',
         marginBottom: '10px',
         backgroundColor: 'pink',
         padding: '10px',
@@ -20,9 +20,9 @@ const Notification = ({ message, errorMessage }) => {
   }
 
   return (
-    <div className="regular" style={{ 
-      color: 'black', 
-      fontSize: '20px', 
+    <div className="regular" style={{
+      color: 'black',
+      fontSize: '20px',
       marginBottom: '10px',
       backgroundColor: '#b8e0a5',
       padding: '10px',
