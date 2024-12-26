@@ -100,6 +100,25 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (blog) => {
+    if (window.confirm(`Do you wish to delete ${blog.title}?`)){
+      try {
+        // Pass the token directly to the blogService
+        const config = { headers: { Authorization: `Bearer ${user.token}` } }
+        await blogService.remove(blog.id, config)
+  
+        setBlogs(blogs.filter((b) => b.id !== blog.id)) // Remove the blog from state
+        setMessage(`Removed: ${blog.title}`)
+        setTimeout(() => setMessage(null), 5000)
+      } catch (error) {
+        console.error('Error deleting blog')
+        setErrorMessage('Could not delete the blog.')
+        setTimeout(() => setErrorMessage(null), 5000)
+      }
+    }
+    
+  }
+
 
   const loginForm = () => (
     <>
@@ -136,7 +155,7 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} deleteBlog={deleteBlog} />
       )}
       <p></p>
       <div style={hideWhenVisible}>

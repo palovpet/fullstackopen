@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog, likeBlog }) => {
+const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const [showInfo, setShowInfo] = useState(false)
   const hideWhenShowInfo = { display: showInfo ? 'none' : '' }
   const showWhenShowInfo = { display: showInfo ? '' : 'none' }
@@ -25,7 +25,8 @@ const Blog = ({ blog, likeBlog }) => {
     <p><b>author: </b> {blog.author}</p>
     <p><b> likes: </b>{blog.likes} <button id='likeButton' onClick={() => likeBlog(blog)}>like</button></p>
     <p><b> url: </b>{blog.url}</p>
-    <button onClick={ () => setShowInfo(false)}>hide</button>
+    <button id='infoButton' onClick={ () => setShowInfo(false)}>hide</button>
+    <button id='deleteButton' onClick={() => deleteBlog(blog)}>delete</button>
   </div>
   </div>  
   )
