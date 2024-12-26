@@ -17,7 +17,7 @@ test('renders blog title', () => {
   expect(element).toBeDefined()
 })
 
-test('clicking view reveals author and likes', async () => {
+test('clicking view reveals author and url', async () => {
   render(<Blog blog={blog}/>)
   const element = screen.getAllByText('Testing is important')
   expect(element).toBeDefined()
@@ -30,4 +30,24 @@ test('clicking view reveals author and likes', async () => {
 
   expect(author).toBeDefined()
   expect(url).toBeDefined()
+})
+
+test('liking a blog twice will cause the eventhandler to be called twice', async () => {
+  const mockHandler = vi.fn()
+  render(<Blog blog={blog} likeBlog={mockHandler}/>)
+  const element = screen.getAllByText('Testing is important')
+  expect(element).toBeDefined()
+
+  const user = userEvent.setup()
+
+  const viewButton = screen.getByText('view')
+  await user.click(viewButton)
+
+  const likeButton = screen.getByText('like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+
+
 })
