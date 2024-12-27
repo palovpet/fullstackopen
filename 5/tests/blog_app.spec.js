@@ -48,11 +48,16 @@ describe('Blog app', () => {
 
     test('a new blog can be created', async ({ page }) => {
       await page.getByRole('button', { name: 'new blog'}).click()
-      await page.getByTestId('title').fill('Testi')
-      await page.getByTestId('author').fill('Taavetti')
-      await page.getByTestId('url').fill('www.testi.fi')
+      await page.getByTestId('title').fill('Koodia')
+      await page.getByTestId('author').fill('Masa L')
+      await page.getByTestId('url').fill('www.code.com')
       await page.getByRole('button', { name: 'save'}).click()
-      await expect(page.getByText('Testi')).toBeVisible() 
+      await expect(page.getByText('added')).toBeVisible() 
+    })
+
+    test('a blog can be liked', async ({ page }) => {
+      await page.getByRole('button', { name: 'view'}).last().click()
+      await expect(page.getByText('was liked')).toBeVisible() 
     })
 
   })
