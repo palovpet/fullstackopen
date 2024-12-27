@@ -1,4 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
+const { before } = require('node:test')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -34,9 +35,25 @@ describe('Blog app', () => {
       await page.getByTestId('password').fill('rupsu')
       await page.getByRole('button', { name: 'go in'}).click()
 
-      await expect(page.getByText('wrong credentials')).toBeVisible()
-      
-
+      await expect(page.getByText('wrong credentials')).toBeVisible()  
     })
+  })
+
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+      await page.getByTestId('username').fill('mluukkai')
+      await page.getByTestId('password').fill('salainen')
+      await page.getByRole('button', { name: 'go in'}).click()
+    })
+
+    test('a new blog can be created', async ({ page }) => {
+      await page.getByRole('button', { name: 'new blog'}).click()
+      await page.getByTestId('title').fill('Testi')
+      await page.getByTestId('author').fill('Taavetti')
+      await page.getByTestId('url').fill('www.testi.fi')
+      await page.getByRole('button', { name: 'save'}).click()
+      await expect(page.getByText('Testi')).toBeVisible() 
+    })
+
   })
 })

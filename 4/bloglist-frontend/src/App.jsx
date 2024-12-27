@@ -176,6 +176,7 @@ const App = () => {
             <div>
               title
               <input
+                data-testid='title'
                 id='title'
                 type="text"
                 value={title}
@@ -187,6 +188,7 @@ const App = () => {
             <div>
               author
               <input
+                data-testid='author'
                 id='author'
                 type="text"
                 value={author}
@@ -198,6 +200,7 @@ const App = () => {
             <div>
               url
               <input
+                data-testid='url'
                 id='url'
                 type="text"
                 value={url}
